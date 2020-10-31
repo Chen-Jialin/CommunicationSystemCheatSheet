@@ -73,9 +73,25 @@
     若$x_1,\cdots,x_n$满足高斯联合分布,其任意子集满足高斯联合分布,其任意线性组合$\sim N(\sum_i^n\mu_i,\sigma_?)$\\
     \textbf{大数定律}:若$X_1,\cdots,X_n$等均值,方差且不相关,$Y=\frac{1}{n}\sum_{i=1}^nX_i$,则$\lim_{n\rightarrow\infty}P(\abs{Y-m_X}\leq\epsilon)=0,\forall\epsilon>0$,样本均值收敛至期望\\
     \textbf{中心极限定理(Central limit Th)}:若$X_1,\cdots,X_n$i.i.d.(\textbf{独立同分布}分布相同但相互独立),$Y=\frac{1}{n}\sum_{i=1}^nX_i$收敛至$N(m_X,\frac{\sigma_X^2}{n})$\\
-    \textbf{瑞利分布}:$f_X(x)=\left\{\begin{array}{ll}
+    \textbf{瑞利分布(Rayleigh dist)}:$f_X(x)=\left\{\begin{array}{ll}
         \frac{x}{\alpha^2}\exp(-\frac{x^2}{2\alpha^2}),&x\geq 0\\
         0,&x<0
-    \end{array}\right.$
+    \end{array}\right.$\\
+    若$X$,$Y$i.i.d.$\sim(0,\sigma^2)$,$R=\sqrt{X^2+Y^2}\sim$瑞利分布$(\sigma)$,$\Theta=\arctan\frac{Y}{X}$,证:$X=R\cos\Theta$,$Y=R\sin\Theta$,$\frac{\partial(x,y)}{\partial(r,\theta)}=\left\lvert\begin{smallmatrix}
+        \cos\theta&-r\sin\theta\\
+        \sin\theta&r\cos\theta
+    \end{smallmatrix}\right\rvert=R$,$f_{R\Theta}(r,\theta)=\frac{\partial(x,y)}{\partial(r,\theta)}\frac{1}{2\pi\sigma^2}e^{-\frac{1}{2\sigma^2}(x^2+y^2)}=\frac{re^{-r^2/2\sigma^2}}{2\pi\sigma^2}$,$0\leq r<+\infty$,$0\leq\theta<\infty$\\
+    \textbf{随机过程(Random process)}:随机变量关于时间的演化,$X(t,\zeta)$,其中$t\in\mathbb{R}$-时间,$\zeta\in S$-事件,$X(t_0,\zeta)$为一随机变量,$X(t,\zeta_0)$为一抽样函数(Sample func),$X(t_0,\zeta_0)$为一个数,$X(t)=\{X(t,\zeta_1),\cdots,X(t,\zeta_n)\}$描述穷尽所有可能$\zeta$所得的抽样函数的集合\\
+    \textbf{随机过程的统计}:对$\{X(t_1),\cdots,X(t_n)\}$,联合pdf$f_{X(t_1),\cdots,X(t_n)}(x_1,\cdots,x_n)=f_{X_1,\cdots,X_n}(x_1,\cdots,x_n)$\\
+    \textbf{一阶统计量(1st order statistics)}:$X(t)$在$t$的概率密度$f_{X(t)}(x)$,均值$E[X(t_0)]=\int_{-\infty}^{+\infty}xf_{X(t_0)}(x)\,\mathrm{d}x$,方差$\sigma_X^2(t_0)=E[(X(t_0)-E[X(t_0)])^2]$\\
+    \textbf{自相关函数(Autocorrelation func)}:$R_X(t_1,t_2)=E[X(t_1)X(t_2)]=\int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty}x_2x_2f_{X_1X_2}(x_1,x_2)\,\mathrm{d}x_1\,\mathrm{d}x_2$,\textbf{自协方差(Autocovariance)}:$\mu_X(t_1,t_2)=E[(X(t_1)-E[X(t_1)])(X(t_2)-E[X(t_2)])]=\int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty}(x_1-E[X(t_1)])(x_2-E[X(t_2)])f_{X_1X_2}(x_1,x_2)\,\mathrm{d}x_1\,\mathrm{d}x_2=R_X(t_1,t_2)-E[X(t_1)]E[X(t_2)]$,$\sigma_X^2(t_0)=\mu_X(t_0,t_0)$\\
+    \textbf{(严/狭义)平稳随机过程((strictly) stationary process)}:$f_{X(t_1),\cdots,X(t_n)}(x_1,\cdots,x_n)=f_{X(t_1+\tau),\cdots,X(t_n+\tau)}(x_1,\cdots,x_n)\forall n,r$;必要条件:一阶统计量$E[X(t)]$,$\sigma_X^2(t)$不依赖$t$,二阶统计量$R_X(t_1,t_2)=R_X(t_2-t_1)$仅依赖时间间隔\\
+    \textbf{宽(/广义)平稳随机(Wide-sense stationary, WSS)过程}:只需满足一阶统计量$E[X(t)]$,$\sigma_X^2(t)$不依赖$t$,二阶统计量$R_X(t_1,t_2)=R_X(t_2-t_1)$仅依赖时间间隔;严平稳随机过程必为宽平稳随机过程,反之不成立;大多数场景下平稳指代WSS\\
+    \textbf{统计/系综平均(Ensemble/Statistical ave)}:$E[X(t)]=\int_{-\infty}^{+\infty}xf_{X(t)}(x)\,\mathrm{d}x$,$R_X(t,t+\tau)$,关于样本平均,得关于时间的函数;\textbf{时间平均(Time ave)}:$\langle X(t)\rangle=\lim_{T\rightarrow+\infty}\frac{1}{2T}\int_{-T}^Tx(t)\,\mathrm{d}t$,$\langle X(t)X(t+\tau)\rangle=\lim_{T\rightarrow+\infty}\frac{1}{2T}\int_{-T}^Tx(t)x(t+\tau)\,\mathrm{d}t$;对周期函数,时间平均可在一个周期内进行;\textbf{各态历经性(Ergodic)}:$E[X(t)]=\langle X(t)\rangle$,$R_X(t,t+\tau)=\langle X(t)X(t+\tau)\rangle$;各态历经性是宽平稳的充分不必要条件\\
+    一般认为,信号是宽平稳,噪音严平稳,时变信道各态历经\\
+    随机过程频域特征-\textbf{功率谱密度(power spectral density,PSD)}:对确知信号,$S_X(f)=\lim_{T\rightarrow+\infty}\frac{1}{T}\abs{X_T(f)}^2$,对随机过程,$S_X(f)=\lim_{T\rightarrow+\infty}\frac{1}{T}E[\abs{X_T(f)}^2]$,其中$X_T(t)=\Pi(\frac{t}{T})X(t)$,$X_T(f)=\mathscr{F}[X_T(t)]$\\
+    \textbf{维纳-辛钦(Winner-Khinchine thm)}:对宽平稳随机过程,$S_X(f)=\mathrm{F}[R_X(\tau)]$;\textbf{总功率}:$R_X(0)=E[X^2(t)]=\int_{-\infty}^{+\infty}S_X(f)\,\mathrm{d}f$,$S_X(0)=\int_{-\infty}^{+\infty}R_X(\tau)\,\mathrm{d}\tau$;$\abs{R(\tau)}\leq R(0)$,证:$E[(X(t)\pm X(t+\tau))^2]=R_X(0)\pm 2R_X(\tau)+R_X(0)\geq 0$即得;$S_X(f)\geq 0\forall f$;$\because R(-\tau)=R(\tau)$,$\therefore S_X(f)=S_X(-f)$;若$X(t)$不包含周期性分量,$\lim_{\abs{\tau}\rightarrow\infty}R(\tau)=E^2[X(t)]$;对各态历经的随机过程,$S_X(f)=\mathscr{F}[\langle X(t)X(t+\tau)\rangle]$\\
+    \textbf{互相关(cross correlation)函数}:$R_{XY}(\tau)=E[X(t)Y(t+\tau)]$;$X$\&$Y$\textbf{正交(orthogonal)}$\Leftrightarrow R_{XY}(\tau)=0\forall\tau$;$R_{XY}(\tau)=R_{YX}(-\tau)$;$n(t)=X(t)+Y(t)$的功率$E[n^2(t)]=E[X^2(t)]+2E[X(t)Y(t)]+E[Y^2(t)]=E[X^2(t)]+2R_{XY}(0)+E[Y^2(t)]$;\textbf{交叉功率谱密度}:$S_{XY}(f)=\mathscr{F}[R_{XY}(\tau)]$\\
+    随机过程经线性系统:输出$Y(t)=X(t)*h(t)$,$Y(f)=X(f)H(f)$,其中$X(t/f)$-输入,$h(t)/H(f)$-线性系统脉冲响应,均值$E[Y(t)]=\int_{-\infty}^{+\infty}h(\tau)E[X(t-\tau)]\,\mathrm{d}\tau=($若$X(t)$WSS$)E[X(t)]\int_{-\infty}^{+\infty}h(\tau)\,\mathrm{d}\tau=E[X(t)]H(0)$;\textbf{自相关函数}:$R_Y(t_1,t_2)=E[Y(t_1)Y(t_2)]=E[\int_{-\infty}^{+\infty}h(\tau_1)X(t-\tau_1)\,\mathrm{d}\tau_1\int_{-\infty}^{+\infty}h(\tau_2)X(t_2-\tau_2)\,\mathrm{d}\tau_2]=\int_{-\infty}^{+\infty}h(\tau_1)\,\tau_1\int_{-\infty}^{+\infty}h(\tau_2)E[X(t-\tau_1)X(t-\tau_2)]\,\mathrm{d}\tau_2$,若$X(t)$WSS,$R_Y(\tau)=\int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty}h(\tau_1)h(\tau_2)R_X(\tau-\tau_1+\tau_2)\,\mathrm{d}\tau_1\,\mathrm{d}\tau_2=\int_{-\infty}^{+\infty}h(\tau_2)[h(\tau+\tau_2)*R(\tau+\tau_2)]\,\mathrm{d}\tau_2=h(-\tau)*h(\tau)*R_X(\tau)$(利用了$x(-\tau)*y(\tau)=\int_{-\infty}^{+\infty}x(\tau_1)h(\tau+t_1)\,\mathrm{d}t_1$);若输入WSS,输出WSS;\textbf{PSD}:$S_Y(\tau)=\abs{H(f)}^2S_X(f)$
 \end{multicols}
 \end{document}
