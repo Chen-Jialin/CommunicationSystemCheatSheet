@@ -43,6 +43,24 @@ $x(t)$的采样信号:$x_{\delta}(t)=\sum_{k=-\infty}^{+\infty}x(kT)\delta(t-kT)
 \textbf{混叠}:信号$x(t)$采样估计$s(t)=\sum_{k=-\infty}^{+\infty}x(kT)\sinc(Tt-k)$的频谱$\hat{s}(f)=\sum_{m=-\infty}^{+\infty}\hat{x}(f+\frac{m}{T})\Pi(fT)$;%
     频域:$\hat{x}(f)=\lim_m\hat{v}_m(f)$,其中第$m$段$\hat{v}_m(f)=\hat{x}(f)\Pi(\frac{f}{2W}-m)\Rightarrow v_m(t)=\sum_kv_m(kT)\sinc(\frac{t}{T}-k)e^{2\pi jmt/T}=\sum_kv_m(kT)\psi_{m,k}(t)\Rightarrow x(t)=\sum_{m,k}v_m(kT)\sinc(\frac{t}{T}-k)e^{2\pi jmt/T}$,若$x(t)$带限$W$,仅$m=0$项$\neq 0$,$s(t)=x(t)$,否则$s(t)=\sum_{k,m}v_m(kT)\sinc(\frac{t}{T}-k)\neq x(t)$;%
     时域:$x(t)=\sum_mv_m(t)$,$s(t)=\sum_{k,m}v_m(kT)\sinc(\frac{t}{T}-k)=\sum_ms_m(t)$,其中$v(t)=\sum_kv_m(kT)\sinc(\frac{t}{T}-k)e^{2\pi jmt/T}$,$s_m(t)=\sum_kv_m(kT)\sin(\frac{t}{T}-k)=v_m(t)e^{-2\pi jmt/T}\Rightarrow\hat{s}_m(f)=\hat{v}(f+\frac{m}{T})=\hat{x}(f+\frac{m}{T})\Pi(fT)\Rightarrow\hat{s}(f)=\sum_m\hat{x}(f+\frac{m}{T})\Pi(fT)$\\
+\textbf{量化}\rule{\columnwidth-\widthof{量化}}{.2pt}\\
+连续幅值$U_1,\cdot$转离散$V_1,\cdots$;%
+    \textbf{标量量化}:$1$个采样映射$1$个数,$U=u\in\mathcal{R}_j=(b_{j-1},b_j)\rightarrow V=a_j$;%
+    \textbf{均方差(mean square error,MSE)}:$E[\abs{U-V}^2]$;%
+    目标:给定pdf$f_U(u)$,选\textbf{量化区间(quantization intervals)}$\{\mathcal{R}_j\}$\&\textbf{代表点(representation points)}$\{a_j\}$以最小化MSE;%
+    目前无系统性最优方法,故分解为$2$个小目标:\textcircled{1}给定$\{a_j\}$,选$\{\mathcal{R}_j\}$,MSE$=\sum_{j=1}^M\int_{b_{j-1}}^{b_j}f_U(u)(u-a_j)^2\,\mathrm{d}u$,$\frac{\partial\text{MSE}}{\partial b_j}=f_U(b_j)(b_j-a_j)^2-f_U(b_j)(b_j-a_{j-1})^2=0\Rightarrow b_j=\frac{a_j+a_{j-1}}{2}$;%
+    \textcircled{2}:给定$\{\mathcal{R}_j\}$,选$\{a_j\}$,$\frac{\partial\text{MSE}}{\partial a_j}=-2\int_{\mathcal{R}_j}f_U(u)u\,\mathrm{d}u+2\int_{\mathcal{R}_j}f_U(u)a_j\,\mathrm{d}u=0\Rightarrow a_j=\frac{\int_{\mathcal{R}_j}uf_U(u)\,\mathrm{d}u}{\int_{\mathcal{R}_j}f_U(u)\,\mathrm{d}u}=E[U\vert\mathcal{R}_j]$;%
+    此即最优量化的必要条件;%
+    \textbf{Lloyd-Max算法}:初始化$a_1,\cdots,a_M\rightarrow$\textcircled{1}$\rightarrow$\textcircled{2}$\rightarrow$迭代足次;%
+    \textbf{向量量化}:相邻多个采样映射多个数;%
+    \textcircled{1}:取$\{(a_j,a_{j'})\}$邻近两点中垂线以划分$\{\mathcal{R}_j\}$;%
+    \textcircled{2}:$(a_j,a_{j'})=E[(U_1,U_2)\vert\mathcal{R}_j]$\\
+\textbf{定熵量化}:为便于信源编码,在给定熵(即信源编码的平均码长)$H(V)=\bar{L}$下量化;%
+    若高精度(high-rate)量化,则等间距量化;%
+    证:拉格朗日函数$L=E[(U-V)^2]+\lambda H(V)$,若$f_U(u)=f_1(\text{长}L_1\text{的区间}1),f_2(\text{长}L_2\text{的区间}2)$,则先将两区间等间距分为$M_i=\frac{L_i}{\Delta_i}$份,代表点$\{a_j^{(i)}\}$,$E[(U-V)^2]=\sum_{i=1,2}\sum_{j=1}^{M_i}\int_{a_j^{(i)}-\Delta_i/2}^{a_j^{(i)}+\Delta_i/2}f_i(u-a_j^{(i)})^2\,\mathrm{d}u=\frac{f_1L_1\Delta_1^2}{12}+\frac{f_2L_2\Delta_2^2}{12}$,$H(V)=-\sum_{i=1,2}M_if_i\Delta_i\log_2 f_i\Delta_i=-f_1L_1\log_2(f_1\Delta_1)-f_2L_2\log_2(f_2\Delta_2)$,拉格朗日乘子法$\frac{\partial L}{\partial\Delta_i}=\frac{\Delta_if_iL_i}{6}-\frac{\lambda f_iL_i}{\Delta_i}=0\forall i\Rightarrow\Delta_1^2=\Delta_2^2=6\lambda$,推广即得,若pdf足够平缓,则等间距量化近似最优;%
+    此时MSE$\approx\frac{\Delta^2}{12}$,$H(V)\approx h(U)-\log_2\Delta\Rightarrow$MSE$\approx\frac{2^{2h(U)-2\bar{L}}}{12}$;%
+    若$\Delta\rightarrow\frac{\Delta}{2}$,MSE$\rightarrow\frac{1}{4}$MSE,$\bar{L}\rightarrow\bar{L}+1$;%
+    工程中$f(u)$定义域或$(-\infty,+\infty)$,则仅处理主要概率分布的区间\\
 \rule{\columnwidth}{.2pt}\\
 \begin{tikzpicture}
     \node at (0,1) {$H(X)$};
