@@ -8,11 +8,12 @@
 \usepackage{amsmath,amssymb,mathrsfs,bm}
 \allowdisplaybreaks[4]
 \providecommand{\abs}[1]{\left\lvert#1\right\rvert}
-% \providecommand{\re}{\,\text{Re}\,}
-% \providecommand{\im}{\,\text{Im}\,}
+\providecommand{\norm}[1]{\left\lVert#1\right\rVert}
+\providecommand{\re}{\,\mathrm{Re}\,}
+\providecommand{\im}{\,\mathrm{Im}\,}
 % \providecommand{\sgn}{\,\text{sgn}\,}
-\providecommand{\sinc}{\,\text{sinc}\,}
-\providecommand{\Pi}{\,\text{rect}\,}
+\providecommand{\sinc}{\,\mathrm{sinc}\,}
+\providecommand{\Pi}{\,\mathrm{rect}\,}
 \usepackage{ulem}
 \usepackage{calc}
 \usepackage{tikz}
@@ -61,6 +62,47 @@ $x(t)$的采样信号:$x_{\delta}(t)=\sum_{k=-\infty}^{+\infty}x(kT)\delta(t-kT)
     此时MSE$\approx\frac{\Delta^2}{12}$,$H(V)\approx h(U)-\log_2\Delta\Rightarrow$MSE$\approx\frac{2^{2h(U)-2\bar{L}}}{12}$;%
     若$\Delta\rightarrow\frac{\Delta}{2}$,MSE$\rightarrow\frac{1}{4}$MSE,$\bar{L}\rightarrow\bar{L}+1$;%
     工程中$f(u)$定义域或$(-\infty,+\infty)$,则仅处理主要概率分布的区间\\
+\textbf{向量空间和信号空间(vector spaces \& signal space)}\rule{\columnwidth-\widthof{向量空间和信号空间(vector spaces \& signal space)}}{.2pt}\\
+$n$维\textbf{向量(vector)}:$\bm{v}=(v_1,\cdots,v_n)^T$;%
+    \textbf{向量空间}$\mathcal{V}$:一组向量$\bm{v}$的集合,操作此组向量的规则及一组标量$\alpha\in\mathbb{F}$(可实可复);%
+    性质:$\bm{u}+\bm{v}=\bm{v}+\bm{u}$,%
+    $\forall\alpha$,$\beta$,$\alpha(\beta\bm{v})=(\alpha\beta)\bm{v}$,%
+    $\alpha(\bm{u}+\bm{v})=\alpha\bm{u}+\alpha\bm{v}$,%
+    $(\alpha+\beta)\bm{v}=\alpha\bm{v}+\beta\bm{v}$,%
+    $\norm{v}=\sqrt{\sum_{i=1}^n\abs{v_i}^2}$\\
+\textbf{内积(inner product)}:$\langle\bm{v}_1,\bm{v}_2\rangle=\bm{v}_1\cdot\bm{v}_2=\sum_{i=1}^nv_{1i}v_{2i}^*=\bm{v}_2^{\dagger}\bm{v}_1$,其中$\bm{v}_1=(v_{11},\cdots,v_{1n})^T$,$\bm{v}_2=(v_{21},\cdots,v_{2n})^T$;%
+    性质:$\langle\bm{v}_1,\bm{v}_2\rangle=\langle\bm{v}_2,\bm{v}_1\rangle^*$,%
+    $\langle\bm{v}_1,\bm{v}_2\rangle+\langle\bm{v}_2,\bm{v}_1\rangle=2\re[\langle\bm{v}_1,\bm{v}_2\rangle]$,%
+    $\bm{v}_1$\&$\bm{v}_2$\textbf{正交}$\Leftrightarrow\langle\bm{v}_1,\bm{v}_2\rangle=0$,%
+    $\{\bm{v}_k\}$正交$\Leftrightarrow\langle\bm{v}_i,\bm{v}_j\rangle=0\forall i\neq j$,%
+    $\{\bm{v}_k\}$\textbf{正交归一}$\Leftrightarrow\{\bm{v}_k\}$正交且$\norm{\bm{v}_i}=1\forall i$\\
+$\cos(\angle(\bm{v},\bm{u}))=\frac{\langle\bm{v},\bm{u}\rangle}{\norm{\bm{v}}\norm{\bm{u}}}$;%
+    与$\bm{u}$同向的单位向量:$\frac{\bm{u}}{\norm{\bm{u}}}$;%
+    $\bm{v}$在$\bm{u}$上\textbf{投影(projection)}:$\bm{v}_{\bm{u}}=\frac{\langle\bm{v},\bm{u}\rangle}{\norm{\bm{u}}^2}\bm{u}$,$\bm{v}\perp\bm{u}$分量:$\bm{v}_{\perp\bm{u}}=\bm{v}-\bm{v}_{\vert\bm{u}}$;%
+    \textbf{施瓦茨不等式}:$\abs{\langle\bm{u},\bm{v}\rangle}\leq\norm{\bm{u}}\norm{\bm{v}}$,当且仅当$\bm{v}_1=a\bm{v}_2$或$\bm{v}_2=a\bm{v}_1$时取等;%
+    证:$\cos(\angle(\bm{v},\bm{u}))=\frac{\langle\bm{v},\bm{u}\rangle}{\norm{\bm{v}}\norm{\bm{u}}}\leq 1$;%
+    \textbf{三角不等式}:$\norm{\bm{v}_1+\bm{v}_2}\leq\norm{\bm{v}_1}+\norm{\bm{v}_2}$;
+    若$\bm{v}_1$\&$\bm{v}_2$正交,$\norm{\bm{v}_1+\bm{v}_2}^2=\norm{\bm{v}_1}^2+\norm{\bm{v}_2}^2$\\
+\textbf{线性不独立}:若$\sum_{j=1}^n\alpha_j\bm{v}_j=0$,其中$\exists\alpha_i\neq 0$;%
+    否则\textbf{线性独立};%
+    若$\forall\bm{v}$可表为$\bm{v}_1,\cdots,\bm{v}_n$的线性组合,则$\bm{v}_1,\cdots,\bm{v}_n$张成$\mathcal{V}$;%
+    若$\bm{v}_1,\cdots,\bm{v}_n$张成$\mathcal{V}$且线性独立,则$\bm{v}_1,\cdots,\bm{v}_n$为$\mathcal{V}$的一组\textbf{基};%
+    若$\bm{v}_1,\cdots,\bm{v}_m$张成$\mathcal{V}$且线性不独立,其中$\mathcal{V}$-一非平庸有限维向量空间,其一子集$\bm{v}_1,\cdots,\bm{v}_n$为$\mathcal{V}$的基;%
+    若$\bm{v}_1,\cdots,\bm{v}_m$线性独立而无法张成$\mathcal{V}$,存在$\mathcal{V}$的一组基包含$\bm{v}_1,\cdots,\bm{v}_n$;%
+    $\mathcal{V}$的每组基均包含相等数量的基矢\\
+$\bm{v}$在$\mathcal{S}$上\textbf{投影}:$\bm{v}_{\vert\mathcal{S}}=\sum_{j=1}^n\langle\bm{v},\bm{\phi}_j\rangle\bm{\phi}_j$,其中$\bm{\phi}_1,\cdots,\bm{\phi}_n$-$\mathcal{S}$的一组正交归一基\\
+\textbf{格拉姆-施密特正交化}:给定$\mathcal{V}$的任一组基$\{\bm{s}_1,\cdots,\bm{s}_n\}$,得一组正交归一基$\{\bm{\phi}_1,\cdots,\bm{\phi}_n\}$,\textcircled{1}$\bm{\phi}_1=\frac{\bm{s}_1}{\norm{\bm{s}_1}}$,\textcircled{2}$(\bm{s}_{k+1})_{\perp\mathcal{S}_k}=\bm{s}_{k+1}-(\bm{s}_{k+1})_{\vert\mathcal{S}_k}=\bm{s}_{k+1}-\sum_{j=1}^k\langle\bm{s}_{k+1},\bm{\phi}_j\rangle\bm{\phi}_j$,其中$\mathcal{S}_k$-$\{\bm{\phi}_1,\cdots,\bm{\phi}_k\}$张成的子空间,\textcircled{3}$\bm{\phi}_{k+1}=\frac{(\bm{s}_{k+1})_{\perp\mathcal{S}_k}}{\norm{(\bm{s}_{k+1})_{\perp\mathcal{S}_k}}}\forall k=1,\cdots,n-1$\\
+信号$x(t)$的\textbf{能量(范数)}:$E=\norm{x(t)}^2=\int_{-\infty}^{+\infty}\abs{x(t)}^2\,\mathrm{d}t$;%
+    \textbf{内积}:$\langle x_1(t),x_2(t)\rangle=\int_{-\infty}^{+\infty}x_1(t)x_2^*(t)\,\mathrm{d}t$;%
+    $x_1(t)$\&$x_2(t)$\textbf{正交}$\Leftrightarrow\langle x_1(t),x_2(t)\rangle=0$;%
+    \textbf{正交归一}$\Leftrightarrow$正交且$E=1$;%
+    \textbf{线性无关}:任意信号无法表为其余信号线性组合;%
+    \textbf{三角不等式}:$\norm{x_1(t)+x_2(t)}\leq\norm{x_1(t)}+\norm{x_2(t)}$;%
+    \textbf{施瓦茨不等式}:$\abs{\langle x_1(t),x_2(t)\rangle}\leq\norm{x_1(t)}\norm{x_2(t)}$\\
+\textbf{格拉姆-施密特正交化}:给定$\{s_m(t)\}_{m=1}^M$,得一组正价归一信号$\{\phi_1(t),\cdots,\phi_M(t)\}$,\textcircled{1}$\phi_1(t)=\frac{s_1(t)}{\sqrt{E_1}}$,\textcircled{2}$\gamma_{k+1}(t)=s_{k+1}(t)-\sum_{i=1}^k\langle s_{k+1},\phi_i(t)\rangle\phi_i(t)$,\textcircled{3}$\phi_{k+1}(t)=\frac{\gamma_{k+1}(t)}{\sqrt{E_{k+1}}}\forall k=1,\cdots,M-1$\\
+\textbf{在$\mathcal{L}_2$上正交归一展开}:用$u(t)=\sum_{m=1}^n\alpha_m\phi_m(t)=(\alpha_1,\cdots,\alpha_n)^T$近似$v(t)$,其中$\{\phi_m(t)\}_{m=1}^n$正交归一,为最小化误差$e(t)=v(t)-u(t)$的能量,$\alpha_m=\langle v(t),\phi_m(t)\rangle$从而$\langle e(t),\phi_m(t)\rangle=\int_{-\infty}^{+\infty}e(t)\phi_m^*(t)\,\mathrm{d}t=0$\\
+\textbf{带通信号}:$x(t)=\re[u(t)e^{j2\pi f_0t}]=\sum_{m=1}^n\re[u_m]\re[\phi_m(t)e^{j2\pi f_0t}]-\sum_{m=1}^n\im[u_m]\im[\phi_m(t)e^{j2\pi f_0t}]=\sum_{m=1}^n[\frac{\re[u_m]}{\sqrt{2}}\psi_m(t)+\frac{\im[u_m]}{\sqrt{2}}\tilde{\psi}_m(t)]$,$\bm{x}=(\frac{\re[u_1]}{\sqrt{2}},\frac{\im[u_1]}{\sqrt{2}},\cdots,\frac{\re[u_n]}{\sqrt{2}},\frac{\im[u_n]}{\sqrt{2}})^T$,其中原基带信号$u(t)=\sum_{m=1}^nu_m\phi_m(t)$,$\bm{u}=(u_1,\cdots,u_n)^T$,$\{\phi_m(t)\}_{m=1}^n$-$u(t)$的一组正交归一基,$u_m=\langle u(t),\phi_m(t)\rangle$,\textbf{带通信号的正交归一基}$\{\psi_m(t)=\sqrt{2}\re[\phi_m(t)e^{j2\pi f_0t}],\tilde{\psi}_m(t)=-\sqrt{2}\im[\phi_m(t)e^{j2\pi f_0t}]\}$;
+    若$u(t)=A\sqrt{E}\phi(t)$,其中$\norm{\phi(t)}=1$且$\phi(t)\in\mathbb{R}$,$\bm{x}=(\frac{\re[A]\sqrt{E}}{\sqrt{2}},\frac{\im[A]\sqrt{E}}{\sqrt{2}})^T$,\textbf{带通信号的正交归一基}$\{\sqrt{2}\re[\phi(t)e^{j2\pi f_0t}]=\sqrt{2}\phi(t)\cos(2\pi f_0t),\sqrt{2}\im[\phi(t)e^{j2\pi f_0t}]=\sqrt{2}\phi(t)\sin(2\pi f_0t)\}$\\
 \rule{\columnwidth}{.2pt}\\
 \begin{tikzpicture}
     \node at (0,1) {$H(X)$};
