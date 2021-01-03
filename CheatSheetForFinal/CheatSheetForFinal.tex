@@ -11,7 +11,7 @@
 \providecommand{\norm}[1]{\left\lVert#1\right\rVert}
 \providecommand{\re}{\,\mathrm{Re}\,}
 \providecommand{\im}{\,\mathrm{Im}\,}
-% \providecommand{\sgn}{\,\text{sgn}\,}
+\providecommand{\sgn}{\,\mathrm{sgn}\,}
 \providecommand{\sinc}{\,\mathrm{sinc}\,}
 \providecommand{\rect}{\,\mathrm{rect}\,}
 \usepackage{ulem}
@@ -220,5 +220,36 @@ $\bm{v}$在$\mathcal{S}$上\textbf{投影}:$\bm{v}_{\vert\mathcal{S}}=\sum_{j=1}
     (carrier removal 1) ->["$\cos 2\pi f_ct$"] (multiplier 1);
     (carrier removal 2) ->["$-\sin 2\pi f_ct$"right] (multiplier 2)};
 \end{tikzpicture}
+\textbf{数学}\hrulefill\\
+\textbf{傅里叶变换(Fourier transform,FT)}:$X(f)=\mathscr{F}[x(t)]=\int_{-\infty}^{\infty}x(\lambda)e^{-j2\pi f\tau}\,d\tau$;%
+    \textbf{傅里叶逆变换(inverse FT)}:$x(t)=\mathscr{F}^{-1}[X(f)]=\int_{-\infty}^{\infty}X(f)\exp(j2\pi ft)\,df$;%
+    \textbf{频谱(spectrum)}:$X(f)=\abs{X(f)}\exp[j\angle X(f)]$\\
+\textbf{帕塞瓦尔(Parseval)定理}:$\int_{-\infty}^{\infty}x_1(t)x_2^*(t)\,\mathrm{d}t=\int_{-\infty}^{\infty}X_1(f)X_2^*(f)\,\mathrm{d}f$\\
+\textbf{FT性质}:设$x_{1/2}(t)\leftrightarrow X_{1/2}(f)$,\textbf{线性性(superposition)}:$a_1x_1(t)+a_2x_2(t)\leftrightarrow a_1X_1(f)+a_2X_2(f)$;%
+    \textbf{相似性(scaling)}:$x(at)\leftrightarrow\frac{1}{\abs{a}}X(\frac{f}{a})$;%
+    \textbf{位移性(time shifting)}:$x(t-t_0)\leftrightarrow X(f)\exp(-j2\pi ft_0)$;%
+    \textbf{freq shifting}:$x(t)\exp(j2\pi f_0t)\leftrightarrow X(f-f_0)$;%
+    \textbf{对称性(duality thm)}:$X(t)\leftrightarrow x(-f)$;%
+    \textbf{modulation thm}:$x(t)\cos(2\pi f_0t)\leftrightarrow \frac{1}{2}[X(f-f_0)+X(f+f_0)]$;%
+    \textbf{微分性(time differentiation)}:$\frac{\mathrm{d}^nx}{\mathrm{d}t^n}\leftrightarrow(j2\pi f)^nX(f)$;%
+    \textbf{freq diff}:$(-jt)^nx(t)\leftrightarrow\frac{\mathrm{d}^nX}{\mathrm{d}f^n}$;%
+    \textbf{积分性(time integration)}:$\int_{-\infty}^tx(\tau)\,\mathrm{d}\tau\leftrightarrow\frac{1}{2\pi f}X(f)+\frac{1}{2}X(0)\delta(f)$;%
+    \textbf{卷积定理(time convolution)}:$x_1(t)*x_2(t)\leftrightarrow X_1(f)X_2(f)$;%
+    \textbf{multiplication}:$x_1(t)x_2(t)\leftrightarrow X_1(f)*X_2(f)$\\
+\textbf{常用FT}:$\Pi(t/\tau)\leftrightarrow\tau\sinc(f\tau)$;%
+    $2W\sinc(2Wt)\leftrightarrow\Pi(f/2W)$;%
+    $\Lambda(t/\tau)\leftrightarrow\tau\sinc^2(f\tau)$;%
+    $W\sinc^2(Wt)\leftrightarrow\Lambda(f/W)$;%
+    $\exp(-\alpha t)u(t)\leftrightarrow 1/\alpha+j2\pi f$,$\alpha>0$;%
+    $t\exp(-\alpha t)u(t)\leftrightarrow 1/(\alpha+j2\pi f)^2$;%
+    $\exp(-a\alpha\abs{t})\leftrightarrow 2\alpha/[\alpha^2+(2\pi f)^2]$;%
+    $\exp[-\pi(t/\tau)^2]\leftrightarrow\tau\exp[-\pi(\tau f)^2]$;%
+    $\delta(t)\leftrightarrow 1$;%
+    $1\leftrightarrow\delta(f)$;%
+    $\cos(2\pi f_0t)\leftrightarrow\frac{1}{2}[\delta(f-f_0)+\delta(f+f_0)]$;%
+    $\sin(2\pi f_0t)\leftrightarrow\frac{1}{2j}[\delta(f-f_0)-\delta(f+f_0)]$;%
+    $u(t)\leftrightarrow\frac{1}{j2\pi f}+\frac{1}{2}\delta(f)$;%
+    $1/(\pi t)\leftrightarrow-j\sgn(f)$;%
+    $\sum_{m=-\infty}^{\infty}\delta(t-mT_s)\leftrightarrow f_s\sum_{n=-\infty}^{\infty}\delta(f-nf_s)$,$f_s=1/T_s$
 \end{multicols*}
 \end{document}
