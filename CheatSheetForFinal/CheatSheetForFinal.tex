@@ -13,10 +13,11 @@
 \providecommand{\im}{\,\mathrm{Im}\,}
 % \providecommand{\sgn}{\,\text{sgn}\,}
 \providecommand{\sinc}{\,\mathrm{sinc}\,}
-\providecommand{\Pi}{\,\mathrm{rect}\,}
+\providecommand{\rect}{\,\mathrm{rect}\,}
 \usepackage{ulem}
 \usepackage{calc}
 \usepackage{tikz}
+\usetikzlibrary{shapes.geometric, positioning, quotes, graphs}
 \begin{document}
 \scriptsize
 \begin{multicols*}{2}
@@ -103,6 +104,25 @@ $\bm{v}$在$\mathcal{S}$上\textbf{投影}:$\bm{v}_{\vert\mathcal{S}}=\sum_{j=1}
 \textbf{在$\mathcal{L}_2$上正交归一展开}:用$u(t)=\sum_{m=1}^n\alpha_m\phi_m(t)=(\alpha_1,\cdots,\alpha_n)^T$近似$v(t)$,其中$\{\phi_m(t)\}_{m=1}^n$正交归一,为最小化误差$e(t)=v(t)-u(t)$的能量,$\alpha_m=\langle v(t),\phi_m(t)\rangle$从而$\langle e(t),\phi_m(t)\rangle=\int_{-\infty}^{+\infty}e(t)\phi_m^*(t)\,\mathrm{d}t=0$\\
 \textbf{带通信号}:$x(t)=\re[u(t)e^{j2\pi f_0t}]=\sum_{m=1}^n\re[u_m]\re[\phi_m(t)e^{j2\pi f_0t}]-\sum_{m=1}^n\im[u_m]\im[\phi_m(t)e^{j2\pi f_0t}]=\sum_{m=1}^n[\frac{\re[u_m]}{\sqrt{2}}\psi_m(t)+\frac{\im[u_m]}{\sqrt{2}}\tilde{\psi}_m(t)]$,$\bm{x}=(\frac{\re[u_1]}{\sqrt{2}},\frac{\im[u_1]}{\sqrt{2}},\cdots,\frac{\re[u_n]}{\sqrt{2}},\frac{\im[u_n]}{\sqrt{2}})^T$,其中原基带信号$u(t)=\sum_{m=1}^nu_m\phi_m(t)$,$\bm{u}=(u_1,\cdots,u_n)^T$,$\{\phi_m(t)\}_{m=1}^n$-$u(t)$的一组正交归一基,$u_m=\langle u(t),\phi_m(t)\rangle$,\textbf{带通信号的正交归一基}$\{\psi_m(t)=\sqrt{2}\re[\phi_m(t)e^{j2\pi f_0t}],\tilde{\psi}_m(t)=-\sqrt{2}\im[\phi_m(t)e^{j2\pi f_0t}]\}$;
     若$u(t)=A\sqrt{E}\phi(t)$,其中$\norm{\phi(t)}=1$且$\phi(t)\in\mathbb{R}$,$\bm{x}=(\frac{\re[A]\sqrt{E}}{\sqrt{2}},\frac{\im[A]\sqrt{E}}{\sqrt{2}})^T$,\textbf{带通信号的正交归一基}$\{\sqrt{2}\re[\phi(t)e^{j2\pi f_0t}]=\sqrt{2}\phi(t)\cos(2\pi f_0t),\sqrt{2}\im[\phi(t)e^{j2\pi f_0t}]=\sqrt{2}\phi(t)\sin(2\pi f_0t)\}$\\
+\textbf{调制\&解调}\rule{\columnwidth-\widthof{调制\&解调}}{.2pt}\\
+二进制输入$\overset{\{0,1\}^n}{\rightarrow}$编码(encoder)$\overset{\{u_k\in\mathcal{A}\}}{\rightarrow}$基带调制(baseband modulation,$p(t)$)\\
+    $\overset{u(t)=\sum_ku_kp(t-kT)}{\rightarrow}$载频(baseband2passband)$\overset{x(t)=2\re[u(t)e^{j2\pi f_ct}]}{\rightarrow}$信道$\overset{y(t)=x(t)+\text{WGN}}{\rightarrow}$去载频(passband2baseband)$\rightarrow$匹配滤波器(matched filter,$q(t)$)$\rightarrow$采样$\overset{\{v_k\}^n}{\rightarrow}$检测(detection)$\overset{\{\tilde{u}_k\}^n}{\rightarrow}$星座图反映射(constellation inverse mapping)$\overset{\{0,1\}^n}{\rightarrow}$二进制输出\\
+\textbf{脉冲调幅(pulse amplitude modulation,PAM)}:${0,1}^n\rightarrow\{u_k\in\mathbb{R}\}$,$u(t)=\sum_ku_k(t)=\sum_ku_kp(t-kT)$,其中$\{p(t-kT)\}$正交,$x(t)=2\re[u(t)e^{j2\pi f_ct}]$;%
+    \textbf{2-PAM}:$0\rightarrow u_k=+1$,$1\rightarrow u_k=-1$;%
+    \textbf{4-PAM}:$00\rightarrow u_k=-3$,$01\rightarrow-1$,$10\rightarrow+1$,$11\rightarrow+3$;%
+    \textbf{M-PAM}:$b$bit(s)$\rightarrow$星座图$\mathcal{A}=\{a_1,\cdots,a_M\}$,其中$a_j\in\mathbb{R}$,$M=2^b$,\textbf{位间隔(bit interval)}:传输单比特平均耗时$T_b$,\textbf{信号间隔(signal interval)}:单个符号平均耗时$T=T_b\times b$,\textbf{比特率(bit rate)}:单位时间平均传输信号位数$R_b=\frac{1}{T_b}$,\textbf{码率(signal/symbol rate)}:单位时间平均传输符号数$R_s=\frac{1}{T}=\frac{R_b}{b}$,设$U_1,\cdots$iid$\sim P(U_k=a_m)=p_m$,其中$k$-时间序号,星座图序号$m\in\{1,\cdots,M\}$,单个符号$a_m$能耗:$E_m=\int\abs{a_mp(t)}^2\,\mathrm{d}t=a_m^2E_p$,单符号平均能耗:$E_{\text{avg}}=\sum_{m=1}^Mp_mE_m$,单比特平均能耗:$E_{b,\text{avg}}=\frac{E_{\text{avg}}}{b}$,平均功率:$P_{\text{avg}}=\frac{E_{\text{avg}}}{T}=\frac{E_{b,\text{avg}}}{T_b}$;%
+    星座图$\mathcal{A}=\{-\frac{d(M-1)}{2},\cdots,-\frac{d}{2},\frac{d}{2},\cdots,\frac{d(M-1)}{2}\}$,通常$P_m=\frac{1}{M}$,则$E_{\text{avg}}=\frac{2}{M}(\frac{d}{2})^2[1^2+3^2+\cdots+(M-1)^2]=\frac{d^2(M^2-1)E_p}{12}$,$b$越大,抗噪性能越好,误码率越低,但功耗越高;%
+    若噪声$<\frac{d}{2}$,可正确检出\\
+\textbf{相位偏移调制(phase-shift keying,PSK)}:星座图中符号等模,相位不同;%
+    \textbf{B(inary)PSK}$=$2-PAM:$0\rightarrow u_k=1$,$1\rightarrow e^{j\pi}$;%
+    \textbf{QPSK}:$00\rightarrow u_k=1$,$01\rightarrow e^{j\pi/2}$,$10\rightarrow e^{j\pi}$,$11\rightarrow e^{j3\pi/2}$;%
+    \textbf{BF(req)SK}:$0\rightarrow u_k(t)=A\cos(2\pi\Delta ft)$,$1\rightarrow A\cos(4\pi\Delta ft)$;%
+    阶数越大,抗噪声性能越好,码率(传输效率)越高\\
+\textbf{正交调幅(quadrature amplitude modulation,QAM)}:星座图中符号可为任意复数,$x(t)=2\re[u(t)]\cos(2\pi f_ct)-2\im[u(t)]\sin(2\pi f_ct)=u(t)e^{j2\pi f_ct}+u^*(t)e^{-j2\pi f_ct}$;%
+    实现方法1:当基带信号$u(t)$带宽$B_b<f_c$,$\hat{u}(f-f_c)$与$\hat{u}(f+f_c)$无重叠,发送端$x^+(t)=u(t)e^{j2\pi f_ct}$,$x(t)=x^+(t)+[x^+(t)]^*$,接受端用希尔伯特滤波器$\hat{h}(f)=1(h>0)$,$0(f\leq 0)$恢复$x^+(t)$,去载波得$u(t)$;%
+    实现方法2如图,匹配滤波器得$r(t)=\int u(\tau)q(t-\tau)\,\mathrm{d}\tau=\int\sum_ku_kp(\tau-kT)q(t-\tau)\,\mathrm{d}\tau=\sum_ku_kg(t-kT)$,其中$g(t)=p(t)*q(t)$,需满足$r(jT)=u_j$,则$g(t)$需为理想Nyquist,$g(kT)=\delta_{k0}\Leftrightarrow\sum_k\hat{g}(f+\frac{k}{T})\Pi(fT)=T\Pi(fT)$(奈奎斯特准则(Nyquist criterion),$\hat{g}(f)$关于$(W_b=\frac{1}{2T},\frac{T}{2})$对称(bandedge symmetry)),否则有符号间干扰(intersymbol interference,ISI),不存在$g$带宽$B_b<W_b$,若$B_b=W_b$,则必$g(t)=\sinc\frac{t}{T}$,若$W_b\leq B_b\leq 2W_b$,则$g(t)$有多种选择,给定$g(t)$后选$\hat{p}(f)=\hat{q}^*(f)$,则$\abs{\hat{p}(f)}=\abs{\hat{q}(f)}=\sqrt{\hat{g}(f)}$带宽相等,$q(t)=p^*(-t)$,$g(t)=\int p(\tau)q(t-\tau)\,\mathrm{d}\tau=\int p(\tau)p^*(\tau-t)\,\mathrm{d}\tau$,$g(kT)=\int p(\tau)p^*(\tau-kT)\,\mathrm{d}\tau=\int p(\tau-jT)p^*(\tau-(k+j)T)\,\mathrm{d}\tau$,$\because g(t)$理想Nyquist,$\{p(t-kT)\}$正交归一,以$T$为周期采样得$u_k=\langle u(t),p(t-kT)\rangle$\\
+\textbf{自由度(degree of freedom,DoF)}:单位时间传输符号数,$B_b$-基带带宽,$W=2B_b$-带通带宽,$T$-信号间隔(符号周期),$T_0$-总传输时长,PAM每$T$发送$1$个实符号,$T_0$发送$\frac{T_0}{T}$,real DoF$=1$,QAM每$T$发送$1$个复符号,complex DoF$=1$,real DoF$=2$,在Nyquist准则$B_b\geq\frac{1}{2T}$下$B_b$应尽可能小,工程上通常$B_b\approx(1.05\sim 1.10)\frac{1}{2T}$,PAM$T_0$内发送$\frac{T_0}{T}\approx 2T_0B_b$个实符号,QAM$T_0$内发送$\frac{T_0}{T}\approx 2T_0B_b$个复符号$=4T_0B_b$个实符号\\
+应对多径效应,需引入符号间隔或均衡器(equalizer)$C(t)$于接收器采样之后,需满足$Z$变换$C(z)=\frac{1}{G(z)}$或$E[e_kv_{k-j}^*]=0\forall j$,其中$e_k=u_k-\hat{u}_k$,$\hat{u}_k=\sum_{j=-K}^Kc_jv_{k-j}$\\
 \rule{\columnwidth}{.2pt}\\
 \begin{tikzpicture}
     \node at (0,1) {$H(X)$};
@@ -120,5 +140,56 @@ $\bm{v}$在$\mathcal{S}$上\textbf{投影}:$\bm{v}_{\vert\mathcal{S}}=\sum_{j=1}
     \draw (0,.2) circle (.7);
     \draw (0,0) circle (.5) node {瞬时码};
 \end{tikzpicture}\\
+\begin{tikzpicture}[node distance=10pt]
+    \node (input) {正交调幅实现方法1:};
+    \node[draw, circle, right=of input] (multiplier 1) {$\times$};
+    \node[draw, right=20pt of multiplier 1] (real part) {$2\re$};
+    \node[draw, right=15pt of real part] (channel) {信道};
+    \node[draw, right=5pt of channel] (Hilbert filter) {希尔伯特滤波器};
+    \node[draw, circle, right=20pt of Hilbert filter] (multiplier 2) {$\times$};
+    \node[right=of multiplier 2] (output) {};
+    \node[above=of multiplier 1] (carrier) {};
+    \node[above=of multiplier 2] (carrier removal) {};
+
+    \graph{(input) ->["$u(t)$"] (multiplier 1) ->["$x^+(t)$"] (real part) ->["$x(t)$"] (channel) -> (Hilbert filter) ->["$x^+(t)$"] (multiplier 2) ->["$u(t)$"] (output);
+    (carrier) ->["$e^{j2\pi f_ct}$"] (multiplier 1);
+    (carrier removal) -> ["$e^{-j2\pi f_ct}$"] (multiplier 2)};
+\end{tikzpicture}\\
+\begin{tikzpicture}[node distance=10pt]
+    \node[draw] (sum of uk'delta) {$\sum_ku_k'\delta(t-kT)$};
+    \node[left=50pt of sum of uk'delta] (input 1) {实现方法2:};
+    \node[draw, right=5pt of sum of uk'delta] (filter 1) {滤波器$p(t)$};
+    \node[draw, circle, right=55pt of filter 1] (multiplier 1) {$\times$};
+    \node[above=of multiplier 1] (carrier 1) {};
+    \node[draw, circle, below right=2.5pt of multiplier 1] (adder) {$+$};
+    \node[right=of adder] (output) {};
+    \node[draw, below=of sum of uk'delta] (sum of uk''delta) {$\sum_ku_k''\delta(t-kT)$};
+    \node[left=50pt of sum of uk''delta] (input 2) {};
+    \node[draw, right=5pt of sum of uk''delta] (filter 2) {滤波器$p(t)$};
+    \node[draw, circle, right=55pt of filter 2] (multiplier 2) {$\times$};
+    \node[below=of multiplier 2] (carrier 2) {};
+
+    \graph{(input 1) ->["$\{u_k'=\re[u_k]\}$"] (sum of uk'delta) -> (filter 1) ->["$\sum_ku_k'p(t-kT)$"] (multiplier 1) ->[to path={-| (\tikztotarget)}] (adder) ->["$x(t)$"] (output);
+    (input 2) ->["$\{u_k''=\im[u_k]\}$"] (sum of uk''delta) -> (filter 2) ->["$\sum_ku_k''p(t-kT)$"] (multiplier 2) ->[to path={-| (\tikztotarget)}] (adder);
+    (carrier 1) ->["$\cos 2\pi f_ct$"left] (multiplier 1);
+    (carrier 2) ->["$-\sin 2\pi f_ct$"] (multiplier 2)};
+
+    \node[below=30pt of input 2] (input) {$x(t)$};
+    \node[draw, circle, above right=2.5pt of input] (multiplier 1) {$\times$};
+    \node[draw, right=of multiplier 1] (matched filter 1) {匹配滤波器$q(t)$};
+    \node[draw, right=of matched filter 1] (sampler 1) {采样};
+    \node[right=20pt of sampler 1] (output 1) {};
+    \node[above=of multiplier 1] (carrier removal 1) {};
+    \node[draw, circle, below right=2.5pt of input] (multiplier 2) {$\times$};
+    \node[draw, right=of multiplier 2] (matched filter 2) {匹配滤波器$q(t)$};
+    \node[draw, right=of matched filter 2] (sampler 2) {采样};
+    \node[right=20pt of sampler 2] (output 2) {};
+    \node[below=of multiplier 2] (carrier removal 2) {};
+
+    \graph{(input) ->[to path={|- (\tikztotarget)}] (multiplier 1) -> (matched filter 1) -> (sampler 1) ->["$\{u_k'\}$"] (output 1);
+    (input) ->[to path={|- (\tikztotarget)}] (multiplier 2) -> (matched filter 2) -> (sampler 2) ->["$\{u_k''\}$"] (output 2);
+    (carrier removal 1) ->["$\cos 2\pi f_ct$"] (multiplier 1);
+    (carrier removal 2) ->["$-\sin 2\pi f_ct$"right] (multiplier 2)};
+\end{tikzpicture}
 \end{multicols*}
 \end{document}
